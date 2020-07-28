@@ -1,7 +1,12 @@
-﻿namespace Model.Models
+﻿using System.ComponentModel;
+
+namespace Model.Models
 {
     public enum EStatus
     {
-        Ativo, Inativo
+        [Description("Ativo")]
+        Ativo,
+        [Description("Inativo")]
+        Inativo
     }
 }
