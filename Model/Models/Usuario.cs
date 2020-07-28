@@ -6,7 +6,7 @@ namespace Model.Models
     [Table("Usuarios")]
     public class Usuario
     {
-        [Required]
+        [Key]
         [Display(Name = "Login:")]
         [MinLength(6, ErrorMessage = "O campo login deve conter no mínimo 6 caracteres")]
         [MaxLength(12, ErrorMessage = "O campo login deve conter até 12 caracteres")]
