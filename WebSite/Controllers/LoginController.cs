@@ -40,7 +40,7 @@ namespace WebSite.Controllers
                 if (loginviewmodel.Senha.Equals(usuario.Senha))
                 {
                     Session["userLogin"] = usuario.Login;
-                    return RedirectToAction("Index", "Usuario");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -53,6 +53,12 @@ namespace WebSite.Controllers
                 ModelState.AddModelError("IdErro", "Usuário e/ou Senha inválidos");
                 return View("Index");
             }
+        }
+
+        public ActionResult Desautenticar()
+        {
+            Session["userLogin"] = null;
+            return RedirectToAction("Index", "Home");
         }
     }
 }

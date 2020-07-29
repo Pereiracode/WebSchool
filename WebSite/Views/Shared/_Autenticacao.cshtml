@@ -1,0 +1,10 @@
+﻿@{
+    if (Session["userlogin"] == null)
+    {
+        @Html.ActionLink("Login", "Index", "Login")
+    }
+    else
+    {
+        @Html.ActionLink("LogOut", "Desautenticar", "Login")
+    }
+}

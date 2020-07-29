@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+a.class-logo {
+    background: url(../Imagens/img2.jpg) no-repeat top left;
+    display: block;
+    width: 220px;
+    height: 72px;
+    text-indent: -9999px;
+}
