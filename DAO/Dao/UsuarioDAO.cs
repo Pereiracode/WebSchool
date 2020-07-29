@@ -6,8 +6,8 @@ namespace DAO.Dao
 {
     public class UsuarioDAO
     {
-        private const string SQL_SELECT_TODOS = "SELECT (login, senha, email) FROM usuarios";
-        private const string SQL_SELECT_ID = "SELECT (login, senha, email) FROM usuarios WHERE login=?";
+        private const string SQL_SELECT_TODOS = "SELECT login, senha, email FROM usuarios";
+        private const string SQL_SELECT_ID = "SELECT login, senha, email FROM usuarios WHERE login=?";
         private const string SQL_UPDATE = "UPDATE usuarios SET senha=?, email=? WHERE login=?";
         private const string SQL_DELETE = "DELETE FROM usuarios WHERE login=?";
         private const string SQL_INSERT = 
@@ -39,9 +39,9 @@ namespace DAO.Dao
             {
                 cn = DaoConnection.AbrirConexao();
                 var comando = new MySqlCommand(SQL_UPDATE, cn);
-                comando.Parameters.AddWithValue("@senha", MySqlDbType.VarChar).Value = usuario.Senha;
-                comando.Parameters.AddWithValue("@email", MySqlDbType.VarChar).Value = usuario.Email;
-                comando.Parameters.AddWithValue("@login", MySqlDbType.VarChar).Value = usuario.Login;
+                comando.Parameters.AddWithValue("@senha", usuario.Senha);
+                comando.Parameters.AddWithValue("@email", usuario.Email);
+                comando.Parameters.AddWithValue("@login", usuario.Login);
                 comando.ExecuteNonQuery();
             }
             finally
@@ -56,7 +56,7 @@ namespace DAO.Dao
             try
             {
                 var comando = new MySqlCommand(SQL_DELETE, cn);
-                comando.Parameters.AddWithValue("@login", MySqlDbType.VarChar).Value = login;
+                comando.Parameters.AddWithValue("@login", login);
                 comando.ExecuteNonQuery();
             }
             finally
@@ -98,7 +98,7 @@ namespace DAO.Dao
             {
                 cn = DaoConnection.AbrirConexao();
                 var comando = new MySqlCommand(SQL_SELECT_ID, cn);
-                comando.Parameters.AddWithValue("@login", MySqlDbType.VarChar).Value = login;
+                comando.Parameters.AddWithValue("@login", login);
 
                 var result = comando.ExecuteReader();
 

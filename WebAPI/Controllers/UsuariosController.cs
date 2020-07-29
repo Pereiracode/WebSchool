@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DAO.Dao;
 using Model.Models;
+using MySql.Data.MySqlClient;
 
 namespace WebAPI.Controllers
 {
     public class UsuariosController : ApiController
     {
-        private EscolaWebContext db = new EscolaWebContext();
+        private UsuarioDAO _daoUsuario = new UsuarioDAO();
 
         // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        public IList<Usuario> GetUsuarios()
         {
-            return db.Usuarios;
+            return _daoUsuario.Listar();
         }
 
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
-        public async Task<IHttpActionResult> GetUsuario(string id)
+        public IHttpActionResult GetUsuario(string id)
         {
-            Usuario usuario = await db.Usuarios.FindAsync(id);
+            Usuario usuario = _daoUsuario.BuscarPorLogin(id);
             if (usuario == null)
             {
                 return NotFound();
@@ -39,7 +33,7 @@ namespace WebAPI.Controllers
 
         // PUT: api/Usuarios/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutUsuario(string id, Usuario usuario)
+        public IHttpActionResult PutUsuario(string id, Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
@@ -51,13 +45,12 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
-
             try
             {
-                await db.SaveChangesAsync();
+                usuario.Login = id;
+                _daoUsuario.Editar(usuario);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (MySqlException)
             {
                 if (!UsuarioExists(id))
                 {
@@ -74,20 +67,18 @@ namespace WebAPI.Controllers
 
         // POST: api/Usuarios
         [ResponseType(typeof(Usuario))]
-        public async Task<IHttpActionResult> PostUsuario(Usuario usuario)
+        public IHttpActionResult PostUsuario(Usuario usuario)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
-
             try
             {
-                await db.SaveChangesAsync();
+                _daoUsuario.Incluir(usuario);
             }
-            catch (DbUpdateException)
+            catch (MySqlException)
             {
                 if (UsuarioExists(usuario.Login))
                 {
@@ -104,32 +95,22 @@ namespace WebAPI.Controllers
 
         // DELETE: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
-        public async Task<IHttpActionResult> DeleteUsuario(string id)
+        public IHttpActionResult DeleteUsuario(string id)
         {
-            Usuario usuario = await db.Usuarios.FindAsync(id);
+            var usuario = _daoUsuario.BuscarPorLogin(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
-            await db.SaveChangesAsync();
+            _daoUsuario.Excluir(id);
 
             return Ok(usuario);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         private bool UsuarioExists(string id)
         {
-            return db.Usuarios.Count(e => e.Login == id) > 0;
+            return _daoUsuario.BuscarPorLogin(id) != null;
         }
     }
 }

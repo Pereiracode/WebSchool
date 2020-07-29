@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
+using System.Net.Http;
 using System.Web.Mvc;
-using DAO.Dao;
 using Model.Models;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace WebSite.Controllers
 {
     public class UsuarioController : Controller
     {
-        private EscolaWebContext db = new EscolaWebContext();
+
+        private HttpClient client = new HttpClient();
+
+        public UsuarioController()
+        {
+            client.BaseAddress = new Uri("http://localhost:56545/");
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
 
         // GET: Usuario
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            HttpResponseMessage resposta = client.GetAsync("api/usuarios").Result;
+
+            string str = resposta.Content.ReadAsStringAsync().Result;
+
+            List<Usuario> model = JsonConvert.DeserializeObject<List<Usuario>>(str);
+            return View(model);
         }
 
         // GET: Usuario/Details/5
@@ -28,12 +39,18 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+
+            HttpResponseMessage resposta = client.GetAsync($"api/usuarios/{id}").Result;
+
+            string str = resposta.Content.ReadAsStringAsync().Result;
+
+            Usuario model = JsonConvert.DeserializeObject<Usuario>(str);            
+
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(model);
         }
 
         // GET: Usuario/Create
@@ -51,8 +68,11 @@ namespace WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
+                HttpResponseMessage resposta = client.PostAsJsonAsync("api/usuarios", usuario).Result;
+                string str = resposta.Content.ReadAsStringAsync().Result;
+
+
+
                 return RedirectToAction("Index");
             }
 
@@ -66,12 +86,16 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+
+            HttpResponseMessage resposta = client.GetAsync($"api/usuarios/{id}").Result;
+
+            Usuario model = resposta.Content.ReadAsAsync<Usuario>().Result;
+
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(model);
         }
 
         // POST: Usuario/Edit/5
@@ -83,8 +107,7 @@ namespace WebSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
+                HttpResponseMessage resposta = client.PutAsJsonAsync($"api/usuarios/{usuario.Login}", usuario).Result;
                 return RedirectToAction("Index");
             }
             return View(usuario);
@@ -97,12 +120,16 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+
+            HttpResponseMessage resposta = client.GetAsync($"api/usuarios/{id}").Result;
+
+            Usuario model = resposta.Content.ReadAsAsync<Usuario>().Result;
+
+            if (model == null)
             {
                 return HttpNotFound();
             }
-            return View(usuario);
+            return View(model);
         }
 
         // POST: Usuario/Delete/5
@@ -110,19 +137,12 @@ namespace WebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuario);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            HttpResponseMessage resposta = client.GetAsync($"api/usuarios/{id}").Result;
+            Usuario model = resposta.Content.ReadAsAsync<Usuario>().Result;
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            resposta = client.DeleteAsync($"api/usuarios/{id}").Result;
+
+            return RedirectToAction("Index");
         }
     }
 }
