@@ -1,4 +1,5 @@
-﻿using Model.Models;
+﻿using DAO.Utils;
+using Model.Models;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 
@@ -18,6 +19,7 @@ namespace DAO.Dao
             MySqlConnection cn = null;
             try
             {
+                usuario.Senha = CriptoHash.GerarHash(usuario.Senha);
                 cn = DaoConnection.AbrirConexao();
                 var comando = new MySqlCommand(SQL_INSERT, cn);
                 comando.Parameters.AddWithValue("@login", usuario.Login);
@@ -37,6 +39,7 @@ namespace DAO.Dao
             MySqlConnection cn = null;
             try
             {
+                usuario.Senha = CriptoHash.GerarHash(usuario.Senha);
                 cn = DaoConnection.AbrirConexao();
                 var comando = new MySqlCommand(SQL_UPDATE, cn);
                 comando.Parameters.AddWithValue("@senha", usuario.Senha);
