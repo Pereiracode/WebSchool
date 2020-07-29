@@ -54,6 +54,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,7 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\DaoConnection.cs" />
     <Compile Include="Dao\EscolaWebContext.cs" />
+    <Compile Include="Dao\MysqlCommand.cs" />
+    <Compile Include="Dao\UsuarioDAO.cs" />
     <Compile Include="Migrations\202007281746110_DatabaseInicial.cs" />
     <Compile Include="Migrations\202007281746110_DatabaseInicial.Designer.cs">
       <DependentUpon>202007281746110_DatabaseInicial.cs</DependentUpon>
