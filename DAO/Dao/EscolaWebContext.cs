@@ -13,7 +13,5 @@ namespace DAO.Dao
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Disciplina> Disciplinas { get; set; }
-
-        public DbSet<AlunoDisciplina> AlunoDisciplinas { get; set; }
     }
 }
