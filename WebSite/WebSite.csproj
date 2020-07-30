@@ -142,6 +142,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AlunoController.cs" />
+    <Compile Include="Controllers\AlunoDisciplinaController.cs" />
     <Compile Include="Controllers\DisciplinaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -207,6 +208,11 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_Autenticacao.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\AlunoDisciplina\Create.cshtml" />
+    <Content Include="Views\AlunoDisciplina\Delete.cshtml" />
+    <Content Include="Views\AlunoDisciplina\Details.cshtml" />
+    <Content Include="Views\AlunoDisciplina\Edit.cshtml" />
+    <Content Include="Views\AlunoDisciplina\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
