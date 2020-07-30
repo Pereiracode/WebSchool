@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using DAO.Dao;
 using Model.Models;
+using WebSite.Filters;
 
 namespace WebSite.Controllers
 {
+    [AutorizadoFilter]
     public class DisciplinaController : Controller
     {
         private EscolaWebContext db = new EscolaWebContext();
