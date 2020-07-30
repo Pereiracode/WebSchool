@@ -71,6 +71,10 @@
     <Compile Include="Migrations\202007281746110_DatabaseInicial.Designer.cs">
       <DependentUpon>202007281746110_DatabaseInicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007302006040_inserirAlunoDisciplina.cs" />
+    <Compile Include="Migrations\202007302006040_inserirAlunoDisciplina.Designer.cs">
+      <DependentUpon>202007302006040_inserirAlunoDisciplina.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CriptoHash.cs" />
@@ -88,6 +92,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202007281746110_DatabaseInicial.resx">
       <DependentUpon>202007281746110_DatabaseInicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007302006040_inserirAlunoDisciplina.resx">
+      <DependentUpon>202007302006040_inserirAlunoDisciplina.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

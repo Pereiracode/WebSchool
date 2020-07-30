@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,10 @@ namespace Model.Models
         [Required]
         [Display(Name = "Status:")]
         public EStatus Status { get; set; }
+
+        public virtual List<AlunoDisciplina> AlunoDisciplinas { get; set; }
+
+
+
     }
 }
