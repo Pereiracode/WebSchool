@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace WebSite.Filters
 {
-    public class EnviaTokenFilterAttribute : System.Web.Http.Filters.ActionFilterAttribute
+    public class EnviaTokenFilterAttribute : System.Web.Mvc.ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
