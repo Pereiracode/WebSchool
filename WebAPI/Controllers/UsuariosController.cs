@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     public class UsuariosController : ApiController
     {
         private UsuarioDAO _daoUsuario = new UsuarioDAO();

@@ -6,13 +6,15 @@ using System.Web.Mvc;
 using Model.Models;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using WebSite.Filters;
 
 namespace WebSite.Controllers
 {
+    [EnviaTokenFilter]
     public class UsuarioController : Controller
     {
 
-        private HttpClient client = new HttpClient();
+        public HttpClient client = new HttpClient();
 
         public UsuarioController()
         {

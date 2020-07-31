@@ -10,6 +10,10 @@
 @using (Html.BeginForm("Autenticar","Login", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    <div style="background-color:@ViewBag.cor">
+        <br />
+    </div>
+
 
     <div class="form-horizontal">
         <h4>Usuario</h4>
